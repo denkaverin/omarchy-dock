@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "denkaverin.dock",
+  "name": "Dock",
+  "version": "1.0.0",
+  "author": "denkaverin",
+  "description": "App dock for floating workspaces with a configurable icon size and larger app-grid icons.",
+  "kinds": [
+    "service",
+    "menu"
+  ],
+  "entryPoints": {
+    "service": "Dock.qml",
+    "menu": "StubMenu.qml"
+  },
+  "omarchy": {
+    "clonedFrom": "omarchy.dock"
+  }
+}

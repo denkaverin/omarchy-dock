@@ -1,0 +1,10 @@
+// Merge these rows into ~/.config/omarchy/extensions/omarchy-menu.jsonc.
+// Requires extras/omarchy-dock-size on PATH (see README).
+"appearance.dock": {"icon":"󰍜","label":"Dock"},
+"appearance.dock.size": {"icon":"󰍜","label":"Dock Size"},
+"appearance.dock.size.small": {"icon":"󰍜","label":"Small (32)","checked":"[[ $(omarchy-dock-size) == 32 ]]","action":"omarchy-dock-size 32"},
+"appearance.dock.size.medium": {"icon":"󰍜","label":"Medium (40)","checked":"[[ $(omarchy-dock-size) == 40 ]]","action":"omarchy-dock-size 40"},
+"appearance.dock.size.large": {"icon":"󰍜","label":"Large (48)","checked":"[[ $(omarchy-dock-size) == 48 ]]","action":"omarchy-dock-size 48"},
+"appearance.dock.size.extra": {"icon":"󰍜","label":"Extra Large (56)","checked":"[[ $(omarchy-dock-size) == 56 ]]","action":"omarchy-dock-size 56"},
+"appearance.dock.size.custom": {"icon":"󰍜","label":"Custom…","action":"size=$(omarchy menu input 'Dock icon size (16-96)') && omarchy-dock-size \"$size\""},
+"appearance.dock.size.default": {"icon":"󰍜","label":"Default (42)","checked":"[[ $(omarchy-dock-size) == 42 ]]","action":"omarchy-dock-size reset"},

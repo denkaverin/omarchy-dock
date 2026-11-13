@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# omarchy:summary=Set the dock icon size
+# omarchy:group=dock
+# omarchy:args=[<px>|reset]
+# omarchy:examples=omarchy-dock-size 42
+
+set -euo pipefail
+
+source "$(command -v omarchy-shell-config)"
+
+DEFAULT_SIZE=42
+MIN_SIZE=16
+MAX_SIZE=96
+
+usage() {
+  cat <<USAGE
+Usage: omarchy-dock-size [<px>|reset]
+
+  (no argument)   Print the current dock icon size (logical px).
+  <px>            Set the dock icon size, $MIN_SIZE-$MAX_SIZE.
+  reset           Drop the override and go back to $DEFAULT_SIZE.
+
+The size lives in ~/.config/omarchy/shell.json as "dock.iconSize" and the
+running dock picks it up immediately; no shell restart needed.
+USAGE
+}
+
+current_size() {
+  jq -r --argjson default "$DEFAULT_SIZE" '(.dock.iconSize // $default) | tostring' "$(source_file)"
+}
+
+case "${1:-}" in
+-h | --help | help)
+  usage
+  ;;
+"")
+  current_size
+  ;;
+reset)
+  (( $# == 1 )) || fail "reset takes no arguments"
+  commit "$NORMALIZE | del(.dock.iconSize)"
+  echo "Dock icon size reset to $DEFAULT_SIZE"
+  ;;
+*)
+  (( $# == 1 )) || fail "takes a single size"
+  [[ $1 =~ ^[0-9]+$ ]] || fail "size must be a whole number"
+  size=$((10#$1))
+  (( size >= MIN_SIZE && size <= MAX_SIZE )) || fail "size must be between $MIN_SIZE and $MAX_SIZE"
+  commit "$NORMALIZE | .dock.iconSize = \$size" --argjson size "$size"
+  echo "Dock icon size set to $size"
+  ;;
+esac
